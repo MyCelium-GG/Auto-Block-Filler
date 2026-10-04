@@ -13,7 +13,7 @@ dependencies {
     // Mycel platform implementation: on the run classpath (services are
     // discovered via ServiceLoader; the mod calls Mycel.initialize() itself).
     // Declared as a real mod dependency in fabric.mod.json for production.
-    localRuntime "${mycel_group}:mycel-${mycel_minecraft}:${mycel_version}"
+    localRuntime "${mycel_coordinates}"
 }
 
 loom {
