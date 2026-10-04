@@ -1,5 +1,9 @@
 # AutoBlockRefiller
 
+[![CI](https://github.com/MyCelium-GG/Auto-Block-Filler/actions/workflows/build.yml/badge.svg)](https://github.com/MyCelium-GG/Auto-Block-Filler/actions/workflows/build.yml)
+[![License](https://img.shields.io/github/license/MyCelium-GG/Auto-Block-Filler)](LICENSE)
+[![Last commit](https://img.shields.io/github/last-commit/MyCelium-GG/Auto-Block-Filler)](https://github.com/MyCelium-GG/Auto-Block-Filler/commits/main)
+
 Never run out of blocks mid-build again. When placing blocks empties your hotbar
 slot (or offhand) and more of the same block sit anywhere in your main inventory,
 one full stack slides into the empty slot. Silent, server side, a couple of
