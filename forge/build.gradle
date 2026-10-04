@@ -1,0 +1,33 @@
+plugins {
+    id 'modloader-loader'
+    id 'net.minecraftforge.gradle' version '[7.0.17,8)'
+}
+
+description = rootProject.description
+
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+    mavenCentral()
+}
+
+dependencies {
+    implementation minecraft.dependency("net.minecraftforge:forge:${forge_version}")
+    // Mycel platform implementation: runtime only (entrypoints + services).
+    // Declared as a real mod dependency in META-INF/mods.toml for production.
+    runtimeOnly "${mycel_group}:mycel-forge-${mycel_minecraft}:${mycel_version}"
+}
+
+minecraft {
+    runs {
+        register('client') {
+            workingDir = layout.projectDirectory.dir('runs/client')
+        }
+        register('server') {
+            workingDir = layout.projectDirectory.dir('runs/server')
+            args '--nogui'
+        }
+    }
+}
+
