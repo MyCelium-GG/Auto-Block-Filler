@@ -16,7 +16,12 @@ dependencies {
     implementation minecraft.dependency("net.minecraftforge:forge:${forge_version}")
     // Mycel platform implementation: runtime only (entrypoints + services).
     // Declared as a real mod dependency in META-INF/mods.toml for production.
-    runtimeOnly "${mycel_group}:mycel-forge-${mycel_minecraft}:${mycel_version}"
+    // The exclusion drops FG7's internal game dependency, which Mycel <= 1.0.2
+    // leaks into its published POM as "<group>:forge:<version>" (an artifact
+    // that can never exist). Remove this once depending on Mycel 1.0.3+.
+    runtimeOnly("${mycel_group}:mycel-forge-${mycel_minecraft}:${mycel_version}") {
+        exclude group: mycel_group, module: 'forge'
+    }
 }
 
 minecraft {
