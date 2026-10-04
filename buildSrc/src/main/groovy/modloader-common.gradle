@@ -46,13 +46,16 @@ repositories {
     }
 }
 
-// Declare capabilities on the outgoing configurations.
+// Declares capabilities on the outgoing configurations so loader modules can
+// select the common variant explicitly (see modloader-loader).
+// NOTE: every capability must be UNIQUE per module. A shared catch-all would
+// make consumer graphs containing two modules of this project unresolvable
+// (same lesson as Mycel's own modules).
 ['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->
     configurations."$variant".outgoing {
         capability("$group:${project.name}:$version")
         capability("$group:${base.archivesName.get()}:$version")
         capability("$group:$mod_id-${project.name}-${minecraft_version}:$version")
-        capability("$group:$mod_id:$version")
     }
     publishing.publications.configureEach {
         suppressPomMetadataWarningsFor(variant)
