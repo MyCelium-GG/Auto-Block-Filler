@@ -9,7 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 /**
- * The refill brain: no loader APIs, no events — pure inventory logic plus a
+ * The refill brain: no loader APIs, no events - pure inventory logic plus a
  * two-tick-deferred entry point.
  *
  * <p>Why deferred? Loader hooks fire <em>before</em> the block is placed, so
