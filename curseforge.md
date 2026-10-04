@@ -7,7 +7,7 @@ fresh stack slides into the empty slot a moment later. Silent and automatic.
 - Refills only blocks, only into slots that are actually empty
 - Searches the main inventory first, never touches armour or offhand stock
 - Covers both hands: selected hotbar slot and offhand
-- Requires **Mycel** (it is installed automatically as a dependency)
+- Requires **Mycel**: install it alongside this mod
 
 ## Configuration
 
