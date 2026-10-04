@@ -8,7 +8,7 @@ description = rootProject.description
 dependencies {
     // Mycel platform implementation: runtime only (entrypoints + services).
     // Declared as a real mod dependency in META-INF/neoforge.mods.toml for production.
-    runtimeOnly "${mycel_group}:mycel-neoforge-${mycel_minecraft}:${mycel_version}"
+    runtimeOnly "${mycel_group}:mycel-${mycel_minecraft}:${mycel_version}"
 }
 
 neoForge {

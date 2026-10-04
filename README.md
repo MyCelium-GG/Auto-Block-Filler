@@ -5,7 +5,7 @@ slot (or offhand) and more of the same block sit anywhere in your main inventory
 one full stack slides into the empty slot — silently, server-side, a couple of
 ticks later.
 
-Built on [Mycel](https://github.com/MyCelium-GG/MyCel) (`my.celium.org`), the shared
+Built on [Mycel](https://github.com/MyCelium-GG/MyCel-Lib) (`my.celium.org`), the shared
 core for the MyCelium ecosystem — this mod is ~150 lines of feature code because
 configuration, platform abstraction, scheduling and diagnostics are reused.
 
@@ -42,5 +42,6 @@ JDK 25, then:
 ./gradlew :common:test     # unit tests only
 ```
 
-Mycel itself comes from [JitPack](https://jitpack.io/#MyCelium-GG/MyCel)
-(`com.github.MyCelium-GG.MyCel:mycel-<loader>-26.3:1.0.0`) — no local setup needed.
+Mycel itself comes from [JitPack](https://jitpack.io/#MyCelium-GG/MyCel-Lib)
+as one universal jar for all loaders
+(`com.github.MyCelium-GG.MyCel-Lib:mycel-26.3:1.1.0`) — no local setup needed.
