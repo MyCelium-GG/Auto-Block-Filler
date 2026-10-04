@@ -119,3 +119,10 @@ publishing {
         }
     }
 }
+
+// Do NOT publish Gradle Module Metadata: variants/capabilities only make
+// sense inside this build. External consumers must resolve through the
+// plain POM (see Mycel, where module metadata broke JitPack consumers).
+tasks.matching { it.name.startsWith('generateMetadataFileFor') }.configureEach {
+    enabled = false
+}
