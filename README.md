@@ -44,4 +44,4 @@ JDK 25, then:
 
 Mycel itself comes from [JitPack](https://jitpack.io/#MyCelium-GG/MyCel-Lib)
 as one universal jar for all loaders
-(`com.github.MyCelium-GG.MyCel-Lib:mycel-26.3:1.1.0`) — no local setup needed.
+(`com.github.MyCelium-GG:MyCel-Lib:1.1.0`) — no local setup needed.
