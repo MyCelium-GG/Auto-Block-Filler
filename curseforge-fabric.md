@@ -10,5 +10,5 @@ server side, no keybinds.
 - Main inventory first, never touches armour or offhand stock
 - Config: `enabled` (default true), `searchHotbar` (default false)
 
-Requires **Mycel**. Needs Fabric Loader, Fabric API, Minecraft 26.3, Java 25.
+Requires **Mycel 1.2.1 or newer**. Needs Fabric Loader, Fabric API, Minecraft 26.3, Java 25.
 MIT license.

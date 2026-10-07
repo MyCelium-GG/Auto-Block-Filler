@@ -35,7 +35,10 @@ configuration, platform abstraction, scheduling and diagnostics are reused.
 | `enabled` | `true` | Master switch (also toggleable live via `Mycel.setEnabled`). |
 | `searchHotbar` | `false` | Allow refills from the other hotbar slots. |
 
-Reload live with `/mycel reload autoblockrefiller`. A config screen is
+Reload live with `/mycel reload autoblockrefiller`, or view and change values
+without restarting via `/mycel get autoblockrefiller [key]`,
+`/mycel set autoblockrefiller <key> <value>` and
+`/mycel reset autoblockrefiller [key]`. A config screen is
 available from the mod list on Forge and NeoForge.
 
 ## Building
