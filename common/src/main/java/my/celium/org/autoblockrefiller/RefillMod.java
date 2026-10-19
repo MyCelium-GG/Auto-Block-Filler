@@ -32,6 +32,8 @@ public final class RefillMod {
 
     public static final ModMetadata META = ModMetadata.builder(ID, "AutoBlockRefiller", "1.0.1")
             .author("MyCelium")
+            .website("https://www.curseforge.com/minecraft/mc-mods/auto-block-refiller")
+            .updateUrl("https://wiki.mycelium-gg.org/updates/autoblockrefiller.json")
             .build();
 
     public static ConfigValue<Boolean> enabled;
