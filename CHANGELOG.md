@@ -3,6 +3,15 @@
 All notable changes to AutoBlockRefiller are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.0.2] - 2026-10-19
+
+### Changed
+
+- Updated Mycel lib to 1.3.0: Mycel's chat messages now use the MyCelium wiki's
+  red style.
+- Checks for new versions through the MyCelium wiki (one log line when an
+  update is out; turn off with `enableUpdateChecker` in `config/mycel.json`).
+
 ## [1.0.1] - 2026-10-07
 
 ### Changed
