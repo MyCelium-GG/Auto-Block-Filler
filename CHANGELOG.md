@@ -3,6 +3,13 @@
 All notable changes to AutoBlockRefiller are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.0.3] - 2026-10-25
+
+### Changed
+
+- Requires Mycel 1.4.0. Operators now get one chat line per session when a
+  MyCelium mod has an update, and `/mycel mods` marks it.
+
 ## [1.0.2] - 2026-10-19
 
 ### Changed
