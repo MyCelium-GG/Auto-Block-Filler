@@ -30,7 +30,7 @@ import net.minecraft.world.item.ItemStack;
 public final class RefillMod {
     public static final String ID = "autoblockrefiller";
 
-    public static final ModMetadata META = ModMetadata.builder(ID, "AutoBlockRefiller", "1.0.3")
+    public static final ModMetadata META = ModMetadata.builder(ID, "AutoBlockRefiller", "1.0.4")
             .author("MyCelium")
             .website("https://www.curseforge.com/minecraft/mc-mods/auto-block-refiller")
             .updateUrl("https://wiki.mycelium-gg.org/updates/autoblockrefiller.json")

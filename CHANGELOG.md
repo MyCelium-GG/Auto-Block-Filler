@@ -3,6 +3,16 @@
 All notable changes to AutoBlockRefiller are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.0.4] - 2026-10-26
+
+### Added
+
+- An icon in the mod list on Fabric, Forge and NeoForge.
+
+### Changed
+
+- Requires Mycel 1.4.1.
+
 ## [1.0.3] - 2026-10-25
 
 ### Changed
