@@ -21,5 +21,5 @@ restarting via `/mycel set autoblockrefiller <key> <value>`.
 
 ## Details
 
-- Minecraft 26.3 on Fabric, Forge and NeoForge
+- Minecraft 26.3, 26.2 and 26.1 on Fabric, Forge and NeoForge
 - Java 25, MIT license

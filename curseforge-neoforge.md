@@ -10,5 +10,5 @@ server side, no keybinds.
 - Main inventory first, never touches armour or offhand stock
 - Config: `enabled` (default true), `searchHotbar` (default false)
 
-Requires **Mycel 1.4.0 or newer**. Needs NeoForge 26.3.0.1-beta+, Minecraft 26.3, Java 25.
+Requires **Mycel 1.4.0 or newer**. Needs NeoForge, Minecraft 26.3, 26.2 or 26.1.2, Java 25.
 MIT license.
