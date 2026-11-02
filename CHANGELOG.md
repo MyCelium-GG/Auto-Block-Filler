@@ -3,6 +3,12 @@
 All notable changes to AutoBlockRefiller are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.1.1] - 2026-11-02
+
+### Changed
+- Settings screen: on/off settings now show their real state when it opens (fixed in Mycel).
+- Built against the newest Fabric API, Forge and NeoForge, including the first stable NeoForge for 26.3.
+
 ## [1.1.0] - 2026-10-28
 
 ### Added
