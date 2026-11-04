@@ -28,6 +28,13 @@ configuration, platform abstraction, scheduling and diagnostics are reused.
 - Armour, offhand and crafting slots are never taken from.
 - Works per hand: selected hotbar slot and offhand are both covered.
 
+## Anonymous stats
+
+AutoBlockRefiller sends anonymous stats (how often slots get refilled, with which blocks, and errors in its own code) to its FastStats project through
+Mycel. It follows Mycel's choice exactly: the one-time screen in your own
+game, `shareStats` / `shareErrors` in `config/mycel.json` on servers.
+Details: https://wiki.mycelium-gg.org/privacy#stats-autoblockrefiller
+
 ## Configuration (`config/autoblockrefiller.json`)
 
 | Key | Default | Meaning |

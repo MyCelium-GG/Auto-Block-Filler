@@ -30,7 +30,7 @@ import net.minecraft.world.item.ItemStack;
 public final class RefillMod {
     public static final String ID = "autoblockrefiller";
 
-    public static final ModMetadata META = ModMetadata.builder(ID, "AutoBlockRefiller", "1.1.1")
+    public static final ModMetadata META = ModMetadata.builder(ID, "AutoBlockRefiller", "1.1.2")
             .author("MyCelium")
             .website("https://www.curseforge.com/minecraft/mc-mods/auto-block-refiller")
             .updateUrl("https://wiki.mycelium-gg.org/updates/autoblockrefiller.json")
@@ -54,6 +54,7 @@ public final class RefillMod {
         searchHotbar = builder.booleanValue("searchHotbar", false,
                 "Also take refills from other hotbar slots (the main inventory is always searched).");
         config = builder.build();
+        RefillStats.start();
     }
 
     public static boolean isModEnabled() {

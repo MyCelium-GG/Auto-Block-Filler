@@ -31,7 +31,13 @@ public final class RefillBrain {
         if (player == null || player.isRemoved()) {
             return;
         }
-        refillSlot(player.getInventory(), slot, item, RefillMod.searchHotbar.get());
+        boolean empty = slot >= 0 && slot < player.getInventory().getContainerSize()
+                && player.getInventory().getItem(slot).isEmpty();
+        if (refillSlot(player.getInventory(), slot, item, RefillMod.searchHotbar.get())) {
+            RefillStats.refilled(item, slot == net.minecraft.world.entity.player.Inventory.SLOT_OFFHAND);
+        } else if (empty) {
+            RefillStats.ranOut();
+        }
     }
 
     /**
