@@ -13,6 +13,8 @@
   <a href="https://github.com/MyCelium-GG/Auto-Block-Filler/blob/main/LICENSE"><img src="https://img.shields.io/github/license/MyCelium-GG/Auto-Block-Filler?style=flat-square&color=F2C14E" alt="License"></a>
 </p>
 
+<a href="https://www.curseforge.com/minecraft/mc-mods/mycel"><img src="https://raw.githubusercontent.com/MyCelium-GG/Auto-Block-Filler/2f643e174c03/docs/img/banners/mycel-required.svg" alt="Mycel is required: this mod needs the Mycel library to run. Install Mycel next to it, for the same Minecraft version and loader. Download it from CurseForge." width="100%"></a>
+
 ![About the mod](https://raw.githubusercontent.com/MyCelium-GG/Auto-Block-Filler/95abe575e3ed/docs/img/banners/about-the-mod.svg)
 
 <img src="https://raw.githubusercontent.com/MyCelium-GG/Auto-Block-Filler/95abe575e3ed/docs/img/banners/about.svg" alt="AutoBlockRefiller When placing blocks empties your hotbar slot (or offhand) and more of the same block sit anywhere in your main inventory, one full stack slides into the empty slot. Silent, server side, a couple of ticks later." width="100%">
