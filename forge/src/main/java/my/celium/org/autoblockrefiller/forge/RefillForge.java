@@ -1,25 +1,29 @@
 package my.celium.org.autoblockrefiller.forge;
 
-import my.celium.org.Mycel;
-import my.celium.org.autoblockrefiller.RefillMod;
+import my.celium.org.autoblockrefiller.MissingMycel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 /**
- * Forge entrypoint: forwards pre-placement right-clicks into the common refill trigger.
+ * Forge entrypoint. Without Mycel the mod stays idle and tells joining players Mycel is missing;
+ * with it, {@link RefillForgeHooks} wires the refill trigger and the command. This class must not
+ * reference anything that loads Mycel.
  */
-@Mod(RefillMod.ID)
+@Mod("autoblockrefiller")
 public final class RefillForge {
     public RefillForge(@SuppressWarnings("unused") FMLJavaModLoadingContext context) {
-        RefillMod.init();
-        PlayerInteractEvent.RightClickBlock.BUS.addListener(this::onRightClickBlock);
-    }
-
-    private void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        if (!event.getLevel().isClientSide() && event.getEntity() instanceof ServerPlayer player) {
-            RefillMod.onUseBlock(player, event.getHand());
+        if (!ModList.isLoaded("mycel")) {
+            MissingMycel.logOnce();
+            PlayerEvent.PlayerLoggedInEvent.BUS.addListener(event -> {
+                if (event.getEntity() instanceof ServerPlayer player) {
+                    MissingMycel.tell(player);
+                }
+            });
+            return;
         }
+        RefillForgeHooks.register();
     }
 }

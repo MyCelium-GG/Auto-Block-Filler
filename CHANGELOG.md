@@ -3,6 +3,20 @@
 All notable changes to AutoBlockRefiller are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.2.0] - 2026-11-11
+
+The winter update.
+
+### Added
+- Items you use up by right-clicking refill too: snowballs, eggs, ender pearls, firework rockets, bone meal, splash potions. They must match exactly (a splash potion of healing is never swapped for poison), and armour is never refilled. Off with `refillItems`.
+- Winter: each refill gives a puff of snowflakes and a sleigh-bell chime, and snowballs always refill. On by default; off with `/autoblockrefiller set winter false`.
+- `/autoblockrefiller` (also `/abr`): lists every setting; operators click a value to change it, or use `set <setting> <value>` and `reset <setting>|all`.
+- `/autoblockrefiller toggle`: every player can turn refilling off or on just for themselves. Servers can disable this with `playerToggle`.
+- A note above the hotbar when the last stack goes in and when you run out (`runningLowWarning`), and a quiet refill sound only you hear (`refillSound`).
+
+### Changed
+- Installed without Mycel, the game no longer refuses to start. The mod stays off, logs one warning, and tells every player who joins that Mycel is missing, with a download link. An outdated Mycel is still reported by the loader.
+
 ## [1.1.2] - 2026-11-04
 
 ### Changed

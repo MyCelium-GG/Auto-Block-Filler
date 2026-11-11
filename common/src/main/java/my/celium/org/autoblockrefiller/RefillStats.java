@@ -22,6 +22,11 @@ public final class RefillStats {
         stats = ModStats.builder(RefillMod.META, TOKEN)
                 .bool("enabled", () -> RefillMod.enabled.get())
                 .bool("search_hotbar", () -> RefillMod.searchHotbar.get())
+                .bool("refill_items", () -> RefillMod.refillItems.get())
+                .bool("refill_sound", () -> RefillMod.refillSound.get())
+                .bool("running_low_warning", () -> RefillMod.runningLowWarning.get())
+                .bool("player_toggle", () -> RefillMod.playerToggle.get())
+                .bool("winter", () -> RefillMod.winter.get())
                 .counters("refilled_blocks")
                 .errors("my.celium.org.autoblockrefiller.")
                 .start();
@@ -36,6 +41,14 @@ public final class RefillStats {
         current.count(offhand ? "refill_offhand" : "refill");
         Identifier key = BuiltInRegistries.ITEM.getKey(item);
         current.count("refilled_blocks", "minecraft".equals(key.getNamespace()) ? key.getPath() : key.toString());
+    }
+
+    /** {@code event} happened once, e.g. a command was used. */
+    static void count(String event) {
+        ModStats current = stats;
+        if (current != null) {
+            current.count(event);
+        }
     }
 
     /** The slot ran empty and no matching stack was left to refill it. */

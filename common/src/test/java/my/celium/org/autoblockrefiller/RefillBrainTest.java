@@ -25,6 +25,8 @@ import net.minecraft.world.item.Items;
 class RefillBrainTest {
     static Item DIRT;
     static Item STONE;
+    static Item SNOWBALL;
+    static Item EGG;
 
     @BeforeAll
     static void bootstrap() {
@@ -37,6 +39,10 @@ class RefillBrainTest {
         STONE = Items.STONE;
         DIRT.builtInRegistryHolder().bindComponents(DataComponentMap.EMPTY);
         STONE.builtInRegistryHolder().bindComponents(DataComponentMap.EMPTY);
+        SNOWBALL = Items.SNOWBALL;
+        EGG = Items.EGG;
+        SNOWBALL.builtInRegistryHolder().bindComponents(DataComponentMap.EMPTY);
+        EGG.builtInRegistryHolder().bindComponents(DataComponentMap.EMPTY);
     }
 
     private static ItemStack stackOf(Item item, int count) {
@@ -125,7 +131,7 @@ class RefillBrainTest {
         FakeContainer inv = playerLike();
         inv.set(15, stackOf(DIRT, 32));
 
-        assertTrue(RefillBrain.refillSlot(inv, 3, DIRT, false));
+        assertTrue(RefillBrain.refillSlot(inv, 3, stackOf(DIRT, 1), true, false));
         assertEquals(32, inv.getItem(3).getCount());
         assertTrue(inv.getItem(3).is(DIRT));
         assertTrue(inv.getItem(15).isEmpty());
@@ -137,7 +143,7 @@ class RefillBrainTest {
         inv.set(3, stackOf(STONE, 5));
         inv.set(15, stackOf(DIRT, 32));
 
-        assertFalse(RefillBrain.refillSlot(inv, 3, DIRT, false));
+        assertFalse(RefillBrain.refillSlot(inv, 3, stackOf(DIRT, 1), true, false));
         assertTrue(inv.getItem(3).is(STONE));
         assertEquals(32, inv.getItem(15).getCount());
     }
@@ -147,7 +153,7 @@ class RefillBrainTest {
         FakeContainer inv = playerLike();
         inv.set(15, stackOf(STONE, 32));
 
-        assertFalse(RefillBrain.refillSlot(inv, 3, DIRT, false));
+        assertFalse(RefillBrain.refillSlot(inv, 3, stackOf(DIRT, 1), true, false));
         assertTrue(inv.getItem(3).isEmpty());
     }
 
@@ -155,15 +161,15 @@ class RefillBrainTest {
     void nothingToTakeRefillsNothing() {
         FakeContainer inv = playerLike();
 
-        assertFalse(RefillBrain.refillSlot(inv, 3, DIRT, true));
+        assertFalse(RefillBrain.refillSlot(inv, 3, stackOf(DIRT, 1), true, true));
     }
 
     @Test
     void hotbarSourcesNeedOptIn() {
         FakeContainer main = playerLike();
         main.set(5, stackOf(DIRT, 10));
-        assertFalse(RefillBrain.refillSlot(main, 3, DIRT, false));
-        assertTrue(RefillBrain.refillSlot(main, 3, DIRT, true));
+        assertFalse(RefillBrain.refillSlot(main, 3, stackOf(DIRT, 1), true, false));
+        assertTrue(RefillBrain.refillSlot(main, 3, stackOf(DIRT, 1), true, true));
     }
 
     @Test
@@ -172,7 +178,7 @@ class RefillBrainTest {
         inv.set(36, stackOf(DIRT, 10));
         inv.set(40, stackOf(DIRT, 10));
 
-        assertFalse(RefillBrain.refillSlot(inv, 3, DIRT, true));
+        assertFalse(RefillBrain.refillSlot(inv, 3, stackOf(DIRT, 1), true, true));
     }
 
     @Test
@@ -180,7 +186,7 @@ class RefillBrainTest {
         FakeContainer inv = playerLike();
         inv.set(20, stackOf(DIRT, 7));
 
-        assertTrue(RefillBrain.refillSlot(inv, Inventory.SLOT_OFFHAND, DIRT, false));
+        assertTrue(RefillBrain.refillSlot(inv, Inventory.SLOT_OFFHAND, stackOf(DIRT, 1), true, false));
         assertEquals(7, inv.getItem(Inventory.SLOT_OFFHAND).getCount());
     }
 
@@ -189,8 +195,32 @@ class RefillBrainTest {
         FakeContainer inv = playerLike();
         inv.set(15, stackOf(DIRT, 1));
 
-        assertFalse(RefillBrain.refillSlot(inv, -1, DIRT, false));
-        assertFalse(RefillBrain.refillSlot(inv, 99, DIRT, false));
-        assertFalse(RefillBrain.refillSlot(inv, 3, null, false));
+        assertFalse(RefillBrain.refillSlot(inv, -1, stackOf(DIRT, 1), true, false));
+        assertFalse(RefillBrain.refillSlot(inv, 99, stackOf(DIRT, 1), true, false));
+        assertFalse(RefillBrain.refillSlot(inv, 3, null, true, false));
+    }
+
+    @Test
+    void itemsRefillLikeBlocks() {
+        FakeContainer inv = playerLike();
+        inv.set(12, stackOf(EGG, 16));
+        inv.set(20, stackOf(SNOWBALL, 16));
+
+        assertTrue(RefillBrain.refillSlot(inv, 0, stackOf(SNOWBALL, 1), false, false));
+        assertTrue(inv.getItem(0).is(SNOWBALL));
+        assertTrue(inv.getItem(12).is(EGG));
+    }
+
+    @Test
+    void countsWhatIsLeft() {
+        FakeContainer inv = playerLike();
+        inv.set(4, stackOf(DIRT, 3));
+        inv.set(12, stackOf(DIRT, 64));
+        inv.set(30, stackOf(DIRT, 64));
+        inv.set(31, stackOf(STONE, 64));
+
+        assertEquals(2, RefillBrain.countLeft(inv, 0, stackOf(DIRT, 1), true, false));
+        assertEquals(3, RefillBrain.countLeft(inv, 0, stackOf(DIRT, 1), true, true));
+        assertEquals(0, RefillBrain.countLeft(inv, 0, stackOf(SNOWBALL, 1), false, true));
     }
 }

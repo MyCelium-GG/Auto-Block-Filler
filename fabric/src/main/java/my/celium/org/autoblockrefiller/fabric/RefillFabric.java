@@ -1,21 +1,23 @@
 package my.celium.org.autoblockrefiller.fabric;
 
-import my.celium.org.autoblockrefiller.RefillMod;
+import my.celium.org.autoblockrefiller.MissingMycel;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionResult;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.loader.api.FabricLoader;
 
-/** Fabric entrypoint: forwards pre-placement right-clicks into the common refill trigger. */
+/**
+ * Fabric entrypoint. Without Mycel the mod stays idle and tells joining players Mycel is missing;
+ * with it, {@link RefillFabricHooks} wires the refill trigger and the command. This class must not
+ * reference anything that loads Mycel.
+ */
 public final class RefillFabric implements ModInitializer {
     @Override
     public void onInitialize() {
-        RefillMod.init();
-        UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
-            if (!world.isClientSide() && player instanceof ServerPlayer serverPlayer) {
-                RefillMod.onUseBlock(serverPlayer, hand);
-            }
-            return InteractionResult.PASS;
-        });
+        if (!FabricLoader.getInstance().isModLoaded("mycel")) {
+            MissingMycel.logOnce();
+            ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> MissingMycel.tell(handler.getPlayer()));
+            return;
+        }
+        RefillFabricHooks.register();
     }
 }

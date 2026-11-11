@@ -31,6 +31,11 @@ class RefillModTest {
         assertTrue(RefillMod.enabled.get());
         assertTrue(!RefillMod.searchHotbar.get());
         assertTrue(RefillMod.enabled.isDefault());
+        assertTrue(RefillMod.refillItems.get());
+        assertTrue(RefillMod.refillSound.get());
+        assertTrue(RefillMod.runningLowWarning.get());
+        assertTrue(RefillMod.playerToggle.get());
+        assertTrue(RefillMod.winter.get());
     }
 
     @Test
