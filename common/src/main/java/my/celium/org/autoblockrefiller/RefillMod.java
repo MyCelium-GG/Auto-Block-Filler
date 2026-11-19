@@ -7,6 +7,7 @@ import my.celium.org.config.ConfigBuilder;
 import my.celium.org.config.ConfigValue;
 import my.celium.org.config.MycelConfig;
 import my.celium.org.metadata.ModMetadata;
+import my.celium.org.translation.ModLang;
 import my.celium.org.schedule.MycelScheduler;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.MinecraftServer;
@@ -33,7 +34,10 @@ public final class RefillMod {
     public static final String ID = "autoblockrefiller";
     public static final String NAME = "AutoBlockRefiller";
 
-    public static final ModMetadata META = ModMetadata.builder(ID, NAME, "1.2.0")
+    /** Messages in each player's language (assets/autoblockrefiller/lang). */
+    public static final ModLang LANG = ModLang.of("autoblockrefiller", RefillMod.class);
+
+    public static final ModMetadata META = ModMetadata.builder(ID, NAME, "1.3.0")
             .author("MyCelium")
             .website("https://www.curseforge.com/minecraft/mc-mods/auto-block-refiller")
             .updateUrl("https://wiki.mycelium-gg.org/updates/autoblockrefiller.json")

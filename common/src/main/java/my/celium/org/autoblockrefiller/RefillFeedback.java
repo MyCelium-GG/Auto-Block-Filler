@@ -41,19 +41,20 @@ final class RefillFeedback {
             snowPuff(player);
         }
         if (RefillMod.runningLowWarning.get() && stacksLeft == 0) {
-            overlay(player, TextUtil.msg(TextUtil.hex("Last stack of ", TextUtil.MUTED), name(used)));
+            overlay(player, TextUtil.coloredHex(RefillMod.LANG.text(player, "refill.last_stack", name(used)), TextUtil.MUTED));
         }
     }
 
     /** The slot ran empty and nothing in the inventory could refill it. */
     static void ranOut(ServerPlayer player, ItemStack used) {
         if (RefillMod.runningLowWarning.get()) {
-            overlay(player, TextUtil.msg(TextUtil.hex("Out of ", TextUtil.WARN), name(used)));
+            overlay(player, TextUtil.coloredHex(RefillMod.LANG.text(player, "refill.out_of", name(used)), TextUtil.WARN));
         }
     }
 
     private static Component name(ItemStack used) {
-        return TextUtil.hex(used.getHoverName().getString(), TextUtil.BRIGHT);
+        // The name stays a component, so the player's own game shows it in their language.
+        return TextUtil.coloredHex(used.getHoverName(), TextUtil.BRIGHT);
     }
 
     private static void overlay(ServerPlayer player, Component message) {

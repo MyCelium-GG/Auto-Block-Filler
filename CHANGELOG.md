@@ -3,6 +3,14 @@
 All notable changes to AutoBlockRefiller are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.3.0] - 2026-11-19
+
+### Added
+- In 11 languages: English, German, Spanish, French, Dutch, Brazilian Portuguese, Russian, Polish, Italian, Japanese and Simplified Chinese. Messages from the server reach each player in their own game language.
+
+### Changed
+- Needs Mycel 1.7.0.
+
 ## [1.2.0] - 2026-11-11
 
 The winter update.

@@ -13,6 +13,7 @@ import my.celium.org.command.CommandHelper;
 import my.celium.org.config.ConfigStrings;
 import my.celium.org.config.ConfigValue;
 import my.celium.org.util.ChatVoice;
+import my.celium.org.translation.ModLang;
 import my.celium.org.util.TextUtil;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -33,6 +34,7 @@ import net.minecraft.server.level.ServerPlayer;
 public final class RefillCommand {
     static final ChatVoice VOICE = TextUtil.voice("Refiller");
     private static final String ROOT = "autoblockrefiller";
+    private static final ModLang L = RefillMod.LANG;
     private static final int OP = 2;
 
     private static final SuggestionProvider<CommandSourceStack> SETTINGS = (context, builder) -> {
@@ -90,43 +92,51 @@ public final class RefillCommand {
         if (player != null && RefillMod.playerToggle.get()) {
             boolean on = RefillPlayers.wantsRefills(player.getUUID());
             CommandHelper.info(source, TextUtil.item(TextUtil.msg(
-                    TextUtil.muted("For you  "), state(on), TextUtil.body("   "),
-                    TextUtil.button(on ? "Turn off" : "Turn on", "/" + ROOT + " toggle",
-                            on ? "Stop refilling your slots" : "Refill your slots again"))));
+                    TextUtil.muted(L.get(source, "cmd.for_you") + "  "), state(source, on), TextUtil.body("   "),
+                    TextUtil.button(L.get(source, on ? "cmd.turn_off" : "cmd.turn_on"), "/" + ROOT + " toggle",
+                            L.get(source, on ? "refill.stop_hover" : "refill.again_hover")))));
         }
         for (ConfigValue<?> value : RefillMod.config.values()) {
-            CommandHelper.info(source, row(value, op));
+            CommandHelper.info(source, row(source, value, op));
         }
         if (op) {
-            CommandHelper.info(source, TextUtil.detail("Click a value to change it. Hover a setting to see what it does."));
+            CommandHelper.info(source, TextUtil.detail(L.get(source, "cmd.click_hint")));
         }
         return 1;
     }
 
-    private static MutableComponent row(ConfigValue<?> value, boolean op) {
+    private static MutableComponent row(CommandSourceStack source, ConfigValue<?> value, boolean op) {
         String path = ConfigStrings.pathOf(value);
+        String description = describe(source, value);
         MutableComponent name = TextUtil.muted(path + "  ").withStyle(style -> style.withHoverEvent(
-                new HoverEvent.ShowText(TextUtil.body(value.description()))));
+                new HoverEvent.ShowText(TextUtil.body(description))));
         MutableComponent shown;
         if (value instanceof ConfigValue.BooleanValue bool) {
             boolean on = bool.get();
-            shown = state(on);
+            shown = state(source, on);
             if (op) {
                 shown = TextUtil.empty().append(shown).append(TextUtil.body("   ")).append(TextUtil.button(
-                        on ? "Turn off" : "Turn on", "/" + ROOT + " set " + path + " " + !on, value.description()));
+                        L.get(source, on ? "cmd.turn_off" : "cmd.turn_on"), "/" + ROOT + " set " + path + " " + !on,
+                        description));
             }
         } else {
             shown = TextUtil.hex(ConfigStrings.valueToString(value), TextUtil.ACCENT);
             if (op) {
                 shown = TextUtil.empty().append(shown).append(TextUtil.body("   ")).append(TextUtil.suggest(
-                        "Change", "/" + ROOT + " set " + path + " ", ConfigStrings.describe(value)));
+                        L.get(source, "cmd.change"), "/" + ROOT + " set " + path + " ", ConfigStrings.describe(value)));
             }
         }
         return TextUtil.item(TextUtil.empty().append(name).append(shown));
     }
 
-    private static MutableComponent state(boolean on) {
-        return on ? TextUtil.hex("on", TextUtil.SUCCESS) : TextUtil.hex("off", TextUtil.ERROR);
+    private static MutableComponent state(CommandSourceStack source, boolean on) {
+        return on ? TextUtil.hex(L.get(source, "cmd.on"), TextUtil.SUCCESS) : TextUtil.hex(L.get(source, "cmd.off"), TextUtil.ERROR);
+    }
+
+    /** A setting's description in the reader's language. */
+    private static String describe(CommandSourceStack source, ConfigValue<?> value) {
+        String key = "config." + value.key() + ".desc";
+        return L.has(key) ? L.get(source, key) : value.description();
     }
 
     // ---------------------------------------------------------------- toggle
@@ -135,15 +145,16 @@ public final class RefillCommand {
         ServerPlayer player = CommandHelper.player(context.getSource());
         if (!RefillMod.playerToggle.get()) {
             CommandHelper.failure(context.getSource(),
-                    VOICE.fail("This server does not let players turn refilling off for themselves."));
+                    VOICE.fail(L.get(context.getSource(), "refill.no_toggle")));
             return 0;
         }
         boolean on = RefillPlayers.toggle(player.getUUID());
         RefillStats.count(on ? "toggle_on" : "toggle_off");
-        CommandHelper.success(context.getSource(), on
-                ? VOICE.ok("Refilling is ", state(true), " for you again.")
-                : VOICE.ok("Refilling is ", state(false), " for you. ",
-                        TextUtil.button("Turn on", "/" + ROOT + " toggle", "Refill your slots again")));
+        CommandSourceStack source = context.getSource();
+        CommandHelper.success(source, on
+                ? VOICE.ok(L.text(source, "refill.on_again", state(source, true)))
+                : VOICE.ok(L.text(source, "refill.off", state(source, false)), " ",
+                        TextUtil.button(L.get(source, "cmd.turn_on"), "/" + ROOT + " toggle", L.get(source, "refill.again_hover"))));
         return 1;
     }
 
@@ -160,17 +171,17 @@ public final class RefillCommand {
         try {
             ConfigStrings.parseAndSet(value, raw);
         } catch (IllegalArgumentException e) {
-            CommandHelper.failure(source, VOICE.fail("'" + raw + "' does not work for "
-                    + ConfigStrings.pathOf(value) + ". Allowed: " + ConfigStrings.describe(value) + "."));
+            CommandHelper.failure(source, VOICE.fail(L.get(source, "cmd.invalid", raw, ConfigStrings.pathOf(value),
+                    ConfigStrings.describe(value))));
             return 0;
         }
         RefillStats.count("command_set");
         String after = ConfigStrings.valueToString(value);
         if (before.equals(after)) {
-            CommandHelper.success(source, VOICE.note(ConfigStrings.pathOf(value) + " is already " + after + "."));
+            CommandHelper.success(source, VOICE.note(L.get(source, "cmd.already", ConfigStrings.pathOf(value), after)));
         } else {
-            CommandHelper.success(source, VOICE.ok(ConfigStrings.pathOf(value) + " is now ",
-                    TextUtil.hex(after, TextUtil.ACCENT), TextUtil.muted("   was " + before)));
+            CommandHelper.success(source, VOICE.ok(L.text(source, "cmd.now", ConfigStrings.pathOf(value),
+                    TextUtil.hex(after, TextUtil.ACCENT)), TextUtil.muted("   " + L.get(source, "cmd.was", before))));
         }
         return 1;
     }
@@ -183,23 +194,22 @@ public final class RefillCommand {
         }
         value.reset();
         RefillStats.count("command_reset");
-        CommandHelper.success(source, VOICE.ok(ConfigStrings.pathOf(value) + " is back to ",
-                TextUtil.hex(ConfigStrings.valueToString(value), TextUtil.ACCENT), "."));
+        CommandHelper.success(source, VOICE.ok(L.text(source, "cmd.back", ConfigStrings.pathOf(value),
+                TextUtil.hex(ConfigStrings.valueToString(value), TextUtil.ACCENT))));
         return 1;
     }
 
     private static int resetAll(CommandContext<CommandSourceStack> context) {
         RefillMod.config.resetAll();
         RefillStats.count("command_reset");
-        CommandHelper.success(context.getSource(), VOICE.ok("Every setting is back to its default."));
+        CommandHelper.success(context.getSource(), VOICE.ok(L.get(context.getSource(), "cmd.all_reset")));
         return 1;
     }
 
     private static ConfigValue<?> find(CommandSourceStack source, String path) {
         ConfigValue<?> value = ConfigStrings.find(RefillMod.config, path);
         if (value == null) {
-            CommandHelper.failure(source, VOICE.fail("There is no setting called '" + path + "'. Type /"
-                    + ROOT + " to see them all."));
+            CommandHelper.failure(source, VOICE.fail(L.get(source, "cmd.no_setting", path, ROOT)));
         }
         return value;
     }
